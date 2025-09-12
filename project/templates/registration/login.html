@@ -5,16 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="{% static 'css/update.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
 </head>
 <body>
-    <h2>Admin Update Product</h2>
+    <h2>Login</h2>
     <form method="post">
         {% csrf_token %}
-        <input type="hidden" name="_method" value="PUT">
         {{ form.as_p }}
-        <Button type = 'submit'>UPDATEE</Button>
+        <button type="submit">submit</button>
     </form>
     
 </body>
 </html>
+
+

@@ -1,0 +1,33 @@
+*{
+    color: rgb(36, 61, 62);
+    text-align: center;    
+}   
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: rgba(0, 255, 170, 0.288);
+    margin: 0;
+    padding: 20px;
+    color: rgba(141, 237, 205, 0.471);
+}
+
+
+form{
+    max-width: 500px;
+    margin: 20px auto;
+    background-color: rgba(0, 255, 170, 0.712);
+    border-radius: 8px;
+    padding: 20px;
+    
+}
+
+
+button{
+    background-color: rgba(0, 0, 0, 0.355);
+    color: rgba(47, 236, 173, 0.074);
+    outline: none;
+    border: none;
+    border-radius: 0px;
+    height: 13px;
+}
+

@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+*{
+    color: rgb(36, 61, 62);
+}    
+    
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: rgba(135, 207, 235, 0.618);
+    margin: 0;
+    padding: 20px;
+    color: rgb(36, 61, 62);
+
+}
+
+form{
+    max-width: 500px;
+    margin: 20px auto;
+    background-color: rgba(255, 255, 255, 0.178);
+    border-radius: 8px;
+    padding: 20px;
+    
+}
+</style>
+</head>
+<body>
+    <h1>CREATE ACCOUNT</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Register</button>
+    </form>
+    <p>Have an account <a href="{% url 'login' %'}">login</a>.</p>
+    
+</body>
+</html>

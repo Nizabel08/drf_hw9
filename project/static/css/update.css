@@ -1,0 +1,39 @@
+*{
+    color: rgb(174, 0, 255);
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}    
+    
+body{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background-color: rgba(221, 160, 221, 0.603);
+    margin: 0;
+    padding: 20px;
+}
+
+
+h1{
+    text-align: center;
+    color: rgb(75, 0, 0);
+}
+
+form{
+    max-width: 500px;
+    margin: 20px auto;
+    background-color: rgba(255, 255, 255, 0.178);
+    border-radius: 8px;
+    padding: 20px;
+    
+}
+
+
+button{
+    background-color: rgba(0, 0, 0, 0.048);
+    color: rgb(174, 0, 255);
+    outline: none;
+    border: none;
+    border-radius: 2px;
+    padding: auto 4px;
+}
+
