@@ -1,4 +1,0 @@
-# django
-# pillow
-# (venv) PS C:\Users\nizab\Desktop\drf_hw9\project> pip freeze > requirements.txt
-# Fatal error in launcher: Unable to create process using '"C:\Users\nizab\Desktop\drf_hw9\venv\Scripts\python.exe"  "C:\Users\nizab\Desktop\drf_hw9\project\venv\scripts\pip.exe" freeze': The system cannot find the file specified.
