@@ -15,6 +15,20 @@ h1{
     text-align: center;
 }
 
+form{
+    max-width: 500px;
+    margin: 20px auto;
+    background-color: rgba(255, 255, 255, 0.178);
+    border-radius: 8px;
+    padding: 20px;   
+}
+
+div{
+    padding: 5px;
+    margin: 10px;
+    width: 500px;
+}
+
 /* span{
     color: white !important;
 } */

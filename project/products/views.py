@@ -1,9 +1,8 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
+# from django.shortcuts import render, redirect, get_object_or_404
+# from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden, HttpResponseNotAllowed
 from .models import Product
 from .forms import ProductForm
-
 
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.db.models import Q
@@ -33,7 +32,7 @@ class ProductListView(ListView) :
             queryset = queryset.filter(Q(name__icontains = query)) 
 
         if category :
-            queryset.filter(category__name = category)
+            queryset = queryset.filter(category__name = category)
 
         if min_price :
             queryset = queryset.filter(price__gte = min_price) 
@@ -41,7 +40,16 @@ class ProductListView(ListView) :
         if max_price :
             queryset = queryset.filter(price__lte = max_price) 
 
+        print(self.request.GET)
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        querydict = self.request.GET.copy()
+        if 'page' in querydict:
+            querydict.pop('page')  # remove page param
+        context['querystring'] = querydict.urlencode()
+        return context
 
 
 # def product_detail(request, pk) :

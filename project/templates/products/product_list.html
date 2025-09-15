@@ -2,52 +2,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product</title>
-    <link rel="stylesheet" href="{% static 'css/product_list.css' %}">
+  <meta charset="utf-8">
+  <title>Products</title>
+  <link rel="stylesheet" href="{% static 'css/product_list.css' %}">
 </head>
 <body>
-    <h1>Products</h1>
-    <ul>
-        {% for product in products %}
-        <li>
-            <a href="{% url 'product_detail' product.pk %}">{{ product.name }}</a>
-            - ${{ product.price }}
-            {% if product.in_stock %}
-            (in stock)
-            {% else %}
-            (out of stock)
-            {% endif %}
-        </li>
-        {% empty %}
-        <li>No product available</li>
-        {% endfor %}
-    </ul>
-<br>
-    <div class="pagination">
-        {% if is_paginated %}
-            <span style="color: rgb(255, 255, 255);">
-                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}   
-            {% if page_obj.has_previous %}
-            <a href="?page=1">First</a>
-            <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
-            {% endif %}    
+  <h1>Products</h1>
 
-            {% for num in page_obj.paginator.page_range %}
-                {% if page_obj.number == num %}
-                    <strong>{{ num }}</strong>
-                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                    <a href="?page={{ num }}">{{ num }}</a>
-                {% endif %}
-            {% endfor %}
+  <!-- Filter form (method GET) -->
+  <form method="get" action="{% url 'product_list' %}">
+    <input type="text" name="q" placeholder="Search by name" value="{{ request.GET.q }}">
+    <input type="text" name="category" placeholder="Category" value="{{ request.GET.category }}">
+    <input type="number" step="0.01" name="min_price" placeholder="Min price" value="{{ request.GET.min_price }}">
+    <input type="number" step="0.01" name="max_price" placeholder="Max price" value="{{ request.GET.max_price }}">
+    <button type="submit">Filter</button>
+    <a href="{% url 'product_list' %}">Reset</a>
+  </form>
 
-            {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">Next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">Last</a>
-            {% endif %} 
-        {% endif %}   
-    </div>
+  <hr>
 
+  <ul>
+    {% for product in products %}
+      <li>
+        <a href="{% url 'product_detail' product.pk %}">{{ product.name }}</a> - ${{ product.price }}
+        {% if product.in_stock %}(in stock){% else %}(out of stock){% endif %}
+      </li>
+    {% empty %}
+      <li>No product available</li>
+    {% endfor %}
+  </ul>
+
+  <br>
+
+  <!-- Pagination: append querystring (filters) to every link -->
+  <div class="pagination">
+    {% if is_paginated %}
+      <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+      {% if page_obj.has_previous %}
+        <a href="?page=1{% if querystring %}&{{ querystring }}{% endif %}">First</a>
+        <a href="?page={{ page_obj.previous_page_number }}{% if querystring %}&{{ querystring }}{% endif %}">Previous</a>
+      {% endif %}
+
+      {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+          <strong>{{ num }}</strong>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+          <a href="?page={{ num }}{% if querystring %}&{{ querystring }}{% endif %}">{{ num }}</a>
+        {% endif %}
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% if querystring %}&{{ querystring }}{% endif %}">Next</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}{% if querystring %}&{{ querystring }}{% endif %}">Last</a>
+      {% endif %}
+    {% endif %}
+  </div>
+  <br>
 </body>
 </html>
