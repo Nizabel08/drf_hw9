@@ -12,7 +12,9 @@ class ProductMiddleware :
         if request.path.startswith('/products') :
             print(f'[Product] request to {request.path} took {duration:.3f} seconds')
 
-        return response
+        # elif request.path.startswith('/products') and request.method == 'DELETE' :
+        #     print(f'[Product] DELETE request to  {request.path} took {duration:.3f} seconds')
 
+        return response
 
 
