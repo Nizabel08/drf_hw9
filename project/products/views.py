@@ -46,7 +46,7 @@ class ProductListView(ListView, QueryParamsMixin) :
         # return queryset
 
         order_by = self.request.GET.get('order_by')
-        if order_by in ['name', '-name', 'price', '-price', 'id', '-id']
+        if order_by in ['name', '-name', 'price', '-price', 'id', '-id'] :
             queryset - queryset.order_by(order_by)
 
         else :
