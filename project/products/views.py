@@ -14,7 +14,9 @@ from django.urls import reverse_lazy
 #     products = Product.objects.all()
 #     return render(request, 'products/product_list.html', {'products' : products})
 
-class ProductListView(ListView) :
+from .mixins import QueryParamsMixin
+
+class ProductListView(ListView, QueryParamsMixin) :
     model = Product
     template_name = 'products/product_list.html'
     context_object_name = 'products'
@@ -41,15 +43,27 @@ class ProductListView(ListView) :
             queryset = queryset.filter(price__lte = max_price) 
 
         print(self.request.GET)
+        # return queryset
+
+        order_by = self.request.GET.get('order_by')
+        if order_by in ['name', '-name', 'price', '-price', 'id', '-id']
+            queryset - queryset.order_by(order_by)
+
+        else :
+            queryset = queryset.order_by('id')
+
         return queryset
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        querydict = self.request.GET.copy()
-        if 'page' in querydict:
-            querydict.pop('page')  # remove page param
-        context['querystring'] = querydict.urlencode()
-        return context
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     querydict = self.request.GET.copy()
+    #     if 'page' in querydict:
+    #         querydict.pop('page')  # remove page param
+    #     context['querystring'] = querydict.urlencode()
+    #     return context
+
+
 
 
 # def product_detail(request, pk) :
