@@ -16,7 +16,7 @@ from django.urls import reverse_lazy
 
 from .mixins import QueryParamsMixin
 
-class ProductListView(ListView, QueryParamsMixin) :
+class ProductListView(QueryParamsMixin, ListView) :
     model = Product
     template_name = 'products/product_list.html'
     context_object_name = 'products'
@@ -111,6 +111,9 @@ class ProductDetailView(DetailView) :
 #         form = ProductForm()
 #     return render(request, 'products/add_product.html', {'form' : form})
 
+
+from django.contrib import messages
+
 class AddProductView(LoginRequiredMixin, CreateView) :
     model = Product
     form_class = ProductForm
@@ -119,8 +122,10 @@ class AddProductView(LoginRequiredMixin, CreateView) :
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        return super().form_valid(form)
-
+        # return super().form_valid(form)
+        response = super().form_valid(form)
+        messages.success(self.request, f'You have added a new product: {form.instance.name}')
+        return response
 
 
 # @ login_required
@@ -144,7 +149,7 @@ class AddProductView(LoginRequiredMixin, CreateView) :
 #     return render(request, 'products/admin_update_product.html', {'form' : form, 'product' : product})
 
 
-class AdminUpdateProductView(UpdateView, LoginRequiredMixin, UserPassesTestMixin) :
+class AdminUpdateProductView(LoginRequiredMixin, UserPassesTestMixin, UpdateView) :
     model = Product
     form_class = ProductForm
     template_name = 'products/admin_update_product.html'

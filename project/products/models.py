@@ -22,3 +22,10 @@ class ProductLog(models.Model) :
     def __str__(self):
         return f'log for {self.product.name} : {self.message[:30]}'
 
+
+# class Messages(models.Model) :
+#     message = models.CharField(max_length=100)
+
+
+
+
