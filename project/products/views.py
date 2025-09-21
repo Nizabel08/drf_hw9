@@ -75,6 +75,28 @@ class ProductDetailView(DetailView) :
     template_name = 'products/product_detail.html'
     context_object_name = 'product'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product = self.get_object()
+
+        recent = self.request.session.get('recent_products', [])
+        if product.id not in recent :
+            recent.append(product.id)
+
+        recent = recent[-5:]
+        self.request.session['recent_products'] = recent
+        context['recent_products'] = Product.objects.filter(id__in = recent).exclude(id = product.id)
+
+        recent_products = list(Product.objects.filter(id__in = recent))
+        recent_products_sorted = sorted(
+            recent_products, key = lambda x: recent.index(x.id), reverse=True
+        )
+
+        recent_products_sorted = [p for p in recent_products_sorted if p.id != product.id]
+        context['recent_products'] = recent_products_sorted
+        return context
+
+
 
 # @ login_required
 # def add_product(request) :

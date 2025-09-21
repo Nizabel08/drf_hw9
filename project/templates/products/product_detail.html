@@ -21,5 +21,19 @@
 
     <a href="{% url 'product_list' %}">Back to product list</a>
     
+    <h2>Recently Viewed</h2>
+    {% if recent_products %}
+        <ul>
+            {% for p in recent_products %}
+                <li>
+                    <a href="{% url 'product_detail' p.pk %}">{{ p.name }}</a>
+                    - ${{ p.price }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No recently viewed products yet.</p>
+    {% endif %}
+
 </body>
-</html>
+</html>    
