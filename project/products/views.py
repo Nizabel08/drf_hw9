@@ -129,10 +129,10 @@ class AddProductView(LoginRequiredMixin, CreateView) :
 
         send_mail(
             subject='New Product',
-            message= f'a new product {form.instance.name} was added by {self.request.username}'
+            message= f'a new product {form.instance.name} was added by {self.request.username}',
             from_email= 'sender.example@gmail.com',
             recipient_list= ['recipient.example@gmail.com'],
-            fail_silently= False
+            fail_silently= False,
         )
         return response
 
