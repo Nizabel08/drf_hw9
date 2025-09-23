@@ -156,7 +156,7 @@ class AddProductView(LoginRequiredMixin, CreateView) :
 
 #     return render(request, 'products/admin_update_product.html', {'form' : form, 'product' : product})
 
-
+from django.conf import settings
 class AdminUpdateProductView(LoginRequiredMixin, UserPassesTestMixin, UpdateView) :
     model = Product
     form_class = ProductForm
@@ -178,6 +178,20 @@ class AdminUpdateProductView(LoginRequiredMixin, UserPassesTestMixin, UpdateView
             return HttpResponseForbidden('Only admin can change this product')
         return super().handle_no_permission()
 
+    def form_valid(self, form):
+        response = super().form_valid(form)
+
+        send_mail(
+            subject='Product Updated',
+            message= f'product {self.object.name} was updated by {self.request.user.username}',
+            from_email= settings.DEFAULT_FROM_EMAIL,
+            recipient_list= ['recipient.example@gmail.com'],
+            fail_silently= False,
+        )
+
+        return response
+
     def get_success_url(self):
         return reverse_lazy('product_detail', kwargs = {'pk' : self.object.pk})
         
+    
