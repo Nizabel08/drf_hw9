@@ -113,6 +113,7 @@ class ProductDetailView(DetailView) :
 
 
 from django.contrib import messages
+from django.core.mail import send_mail
 
 class AddProductView(LoginRequiredMixin, CreateView) :
     model = Product
@@ -125,8 +126,15 @@ class AddProductView(LoginRequiredMixin, CreateView) :
         # return super().form_valid(form)
         response = super().form_valid(form)
         messages.success(self.request, f'You have added a new product: {form.instance.name}')
-        return response
 
+        send_mail(
+            subject='New Product',
+            message= f'a new product {form.instance.name} was added by {self.request.username}'
+            from_email= 'sender.example@gmail.com',
+            recipient_list= ['recipient.example@gmail.com'],
+            fail_silently= False
+        )
+        return response
 
 # @ login_required
 # def admin_update_product(request, pk) :
@@ -172,3 +180,4 @@ class AdminUpdateProductView(LoginRequiredMixin, UserPassesTestMixin, UpdateView
 
     def get_success_url(self):
         return reverse_lazy('product_detail', kwargs = {'pk' : self.object.pk})
+        
